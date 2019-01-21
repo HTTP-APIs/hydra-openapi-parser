@@ -24,6 +24,5 @@ setup(name='hydra-openapi-parser',
       install_requires=dependencies,
       packages=find_packages(
           exclude=['build', 'dist', 'hydra_openapi_parser.egg-info']),
-      package_dir={'hydra_openapi_parser':
-                   'hydra_openapi_parser'},
+      package_dir={'hydra-openapi-parser':'hydra-openapi-parser'},
       )
