@@ -1,16 +1,15 @@
 import unittest
 import os
-import hydrus
 
-from hydrus.hydraspec.doc_writer import HydraClass
-from hydrus.parser import openapi_parser
+from hydra_python_core.doc_writer import HydraClass
+from hydra_openapi_parser import openapi_parser
 import yaml
 
 
 def import_doc():
     print("Importing Open Api Documentation ..")
-    abs_path = os.path.abspath("{}/samples/petstore_openapi.yaml".format(os.path.dirname(
-        hydrus.__file__)))
+    abs_path = os.path.abspath("{}/samples/petstore_openapi.yaml".format(
+        os.path.dirname(__file__)))
     with open(abs_path, 'r') as stream:
         try:
             return yaml.load(stream)
