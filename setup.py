@@ -8,6 +8,6 @@ setup(
     description='A Parser from OpenAPI to Hydra specs',
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    url='https://github.com/HTTP-APIs/hydra_openapi_parser',
+    url='https://github.com/HTTP-APIs/hydra-openapi-parser',
     zip_safe=False
 )
