@@ -1,5 +1,5 @@
 # hydra-openapi-parser
-This library contains the OpenAPI parser implemntaion in Python to be used with hydrus and python-hydra-agent.
+This library contains the OpenAPI parser implemntaion in Python to be used with `hydrus` and `hydra-python-agent`.
 
 Currently the library consists of openapi_parser module which helps hydrus parse OpenAPI standard docs.
 
