@@ -356,10 +356,35 @@ def allow_parameter(parameter: Dict[str, Any]) -> bool:
     # can add rules about param processing
     # param can be in path too , that is already handled when we declared
     # the class as collection from the endpoint
-    params_location = ["body"]
-    if parameter["in"] not in params_location:
-        return False
-    return True
+    params_location = ["body", "integer", "string", "long", "float",\
+                       "boolean", "dateTime", "Date", "array"]
+    try:
+        if parameter["type"] in params_location:
+            return True
+    except KeyError:
+        if parameter["in"] in params_location:
+            return True
+        
+    return False
+
+
+def type_ref_mapping(type: str)->str:
+    """
+    Returns semantic ref for OAS data types
+    :param type: data type
+    :return: ref
+    """
+    dataType_ref_map = dict()
+    # todo add support for byte , binary , password ,double data types
+    dataType_ref_map["integer"] = "https://schema.org/Integer"
+    dataType_ref_map["string"] = "https://schema.org/Text"
+    dataType_ref_map["long"] = "http://books.xmlschemata.org/relaxng/ch19-77199.html"
+    dataType_ref_map["float"] = "https://schema.org/Float"
+    dataType_ref_map["boolean"] = "https://schema.org/Boolean"
+    dataType_ref_map["dateTime"] = "https://schema.org/DateTime"
+    dataType_ref_map["date"] = "https://schema.org/Date"
+    
+    return dataType_ref_map[type]
 
 
 def get_parameters(global_: Dict[str, Any],
@@ -396,7 +421,25 @@ def get_parameters(global_: Dict[str, Any],
                     param = "vocab:{}".format(
                         parameter["schema"]["$ref"].split('/')[2])
             except KeyError:
-                param = ""
+                type = parameter["type"]
+                if type == "array":
+                    # TODO adaptation to array representation after discussion
+                    items = parameter["items"]
+                    try:
+                        if items["$ref"].split(
+                                '/')[2] in global_["class_names"]:
+                            param = "vocab" + items["$ref"].split('/')[2]
+                        else:
+                            get_class_details(
+                                global_, get_data_at_location(
+                                    items["$ref"]), items["$ref"].split('/')[2], path=path)
+                            param = "vocab" + items["$ref"].split('/')[2]
+                    except KeyError:
+                        param = type_ref_mapping(items["type"])
+                elif type == "object":
+                    param = "string"
+                else:
+                    param = type_ref_mapping(type)
 
     return param
 
