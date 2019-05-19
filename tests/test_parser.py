@@ -9,9 +9,10 @@ import yaml
 
 def import_doc():
     print("Importing Open Api Documentation ..")
-    abs_path = abspath("{}/samples/petstore_openapi.yaml".format(
-        dirname(dirname(__file__))))
-    with open(abs_path, 'r') as stream:
+    abs_path = abspath(
+        "{}/samples/petstore_openapi.yaml".format(dirname(dirname(__file__)))
+    )
+    with open(abs_path, "r") as stream:
         try:
             return yaml.load(stream)
         except yaml.YAMLError as exc:
@@ -38,15 +39,15 @@ class TestParser(unittest.TestCase):
 
     def test_valid_endpoint(self):
         """Test if the endpoint is valid and can be parsed """
-        path = 'A/B/{id}/C/D'
+        path = "A/B/{id}/C/D"
         result = openapi_parser.valid_endpoint(path)
         assert result is "False"
         assert isinstance(result, str)
-        path = 'A/B/{id}'
+        path = "A/B/{id}"
         result = openapi_parser.valid_endpoint(path)
         assert result is "Collection"
         assert isinstance(result, str)
-        path = 'A/B/id'
+        path = "A/B/id"
         result = openapi_parser.valid_endpoint(path)
         assert result is "True"
         assert isinstance(result, str)
@@ -54,15 +55,15 @@ class TestParser(unittest.TestCase):
     def test_get_class_name(self):
         """Test if the class name is being extracted properly from the path """
         path = "A/B/C/Pet"
-        path_list = path.split('/')
+        path_list = path.split("/")
         result = openapi_parser.get_class_name(path_list)
         assert result is path_list[3]
         assert isinstance(result, str)
 
     def test_get_data_from_location(self):
         """Test if the data from the location given is being fetched correctly"""
-        path = '#/definitions/Order'
-        path_list = path.split('/')
+        path = "#/definitions/Order"
+        path_list = path.split("/")
         result = openapi_parser.get_data_at_location(path_list, self.doc)
         response = self.doc["definitions"]["Order"]
         assert response is result
@@ -91,9 +92,7 @@ class TestParser(unittest.TestCase):
 
     def test_check_collection(self):
         """Test if collections are being identified properly"""
-        schema_block = {
-            'type': 'array', 'items': {
-                '$ref': '#/definitions/Pet'}}
+        schema_block = {"type": "array", "items": {"$ref": "#/definitions/Pet"}}
         method = "/Pet"
         result = openapi_parser.check_collection(schema_block, method)
         assert isinstance(result, bool)
@@ -101,13 +100,13 @@ class TestParser(unittest.TestCase):
 
     def test_check_collection_false(self):
         "Test if non collections are identified"
-        schema = {'$ref': '#/definitions/User'}
+        schema = {"$ref": "#/definitions/User"}
         method = "/Pet"
         result = openapi_parser.check_collection(schema, method)
         assert isinstance(result, bool)
         assert not result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Starting tests ..")
     unittest.main()
