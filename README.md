@@ -35,18 +35,27 @@ object = openapi_parser.generate_empty_object()
 ```python3
 path = 'A/B/{id}/C/D'
 openapi_parser.valid_endpoint(path)
+# False
+path = 'A/B/{id}'
+openapi_parser.valid_endpoint(path)
+# Collection
+path = 'A/B/C'
+openapi_parser.valid_endpoint(path)
+# True
 ```
 - Extract class name from the path
 ```python3
 path = "A/B/C/Pet"
 path_list = path.split('/')
-class_name = openapi_parser.get_class_name(path_list)
+openapi_parser.get_class_name(path_list)
+# Pet
 ```
 - Fetch data from location
 ```python3
 path = '#/definitions/Order'
 path_list = path.split('/')
 data = openapi_parser.get_data_at_location(path_list, doc)
+# data is of type dict
 ```
 - Remove variables from path
 ```python3
@@ -56,10 +65,12 @@ output = openapi_parser.sanitise_path(path)
 - Identify if an object is a collection
 ```python3
 schema_block = {
-    'type': 'array', 'items': {
+    'type': 'array',
+    'items': {
         '$ref': '#/definitions/Pet'
     }
 }
 method = "/Pet"
-is_collection = openapi_parser.check_collection(schema_block, method)
+openapi_parser.check_collection(schema_block, method)
+# True
 ```
