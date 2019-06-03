@@ -22,7 +22,7 @@ Porting out from hydrus the hydraspecs directory
 
 ## Sample use-cases of openapi_parser module
 
-Once the OpenAPI YAML document has been loaded into the program a python dictionary `doc`, you can do the following:
+Once the OpenAPI YAML document is assigned into the variable `doc` as a Python dictionary, you can do the following:
 - Parse the OpenAPI doc into a HydraDoc
 ```python3
 parsed_dict = openapi_parser.parse(doc)
