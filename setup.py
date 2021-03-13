@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='hydra_openapi_parser',
-    version='0.1',
+    version='0.2.0',
     packages=find_packages(),
     license='MIT',
     description='A Parser from OpenAPI to Hydra specs',

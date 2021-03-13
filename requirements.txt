@@ -1,2 +1,2 @@
 PyYAML==4.2b1
--e git+https://github.com/HTTP-APIs/hydra-python-core#egg=hydra_python_core
+hydra-python-core
